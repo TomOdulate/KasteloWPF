@@ -1,0 +1,60 @@
+﻿<Window x:Class="Kastelo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kastelo"
+        mc:Ignorable="d"
+        Name="Window"
+        Title="Kastelo" Width="525" MinWidth="900" Height="531" MinHeight="531">
+
+    <Window.CommandBindings>
+        <CommandBinding Command="local:Commands.Exit" CanExecute="ExitCommand_CanExecute" Executed="ExitCommand_Executed" />
+        <CommandBinding Command="local:Commands.Open" CanExecute="OpenCommand_CanExecute" Executed="OpenCommand_Executed" />
+        <CommandBinding Command="local:Commands.New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed" />
+        <CommandBinding Command="local:Commands.Save" CanExecute="SaveCommand_CanExecute" Executed="SaveCommand_Executed" />
+        <CommandBinding Command="local:Commands.SetPassword" CanExecute="SetPasswordCommand_CanExecute" Executed="SetPasswordCommand_Executed" />
+        <CommandBinding Command="local:Commands.ExportKey" CanExecute="ExportKey_CanExecute" Executed="ExportKey_Executed" />
+        <CommandBinding Command="local:Commands.ImportKey" CanExecute="ImportKey_CanExecute" Executed="ImportKey_Executed" />
+        <CommandBinding Command="local:Commands.ExportData" CanExecute="ExportData_CanExecute" Executed="ExportData_Executed" />
+        <CommandBinding Command="local:Commands.ImportData" CanExecute="ImportData_CanExecute" Executed="ImportData_Executed" />
+    </Window.CommandBindings>
+    
+    <DockPanel x:Name="MainDockPanel">
+        <Menu x:Name="MainMenu" DockPanel.Dock="Top" IsMainMenu="True" 
+              VerticalAlignment="Top" BorderThickness="0" Margin="1" >
+            <MenuItem Header="_File">
+                <MenuItem Command="local:Commands.New"  />
+                <MenuItem Command="local:Commands.Open" />
+                <MenuItem Command="local:Commands.Save" />
+                <Separator />
+                <MenuItem Command="local:Commands.Exit"/>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Command="local:Commands.SetPassword" />
+                <MenuItem Command="local:Commands.ExportKey" /> 
+                <MenuItem Command="local:Commands.ImportKey" />
+            </MenuItem>
+            <MenuItem Header="_Import and Export" x:Name="ImportExportMenu" Visibility="Hidden">
+                <MenuItem Command="local:Commands.ExportData" />
+                <MenuItem Command="local:Commands.ImportData" />
+            </MenuItem>
+        </Menu>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem >
+                <TextBlock>Version:</TextBlock>
+            </StatusBarItem>                
+            <StatusBarItem>
+                <TextBlock x:Name="VersionLabel" Text="Development"/>
+            </StatusBarItem>                               
+            <StatusBarItem HorizontalAlignment="Right">                    
+                <TextBlock x:Name="FilenameLabel" Text="No file loaded"/>
+            </StatusBarItem>
+        </StatusBar>
+        <Grid x:Name="MainGrid">
+            <!-- User controls will be loaded here -->
+        </Grid>
+    </DockPanel>
+    
+</Window>

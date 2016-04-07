@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="Kastelo.Controls.UcViewApplications"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:tao="clr-namespace:Tao.CredentialStore;assembly=Tao.CredentialStore"
+             xmlns:local="clr-namespace:Kastelo"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="800">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="local:Commands.AddApplication" CanExecute="AddApplication_CanExecute" Executed="AddApplicaiton_Executed"/>
+        <CommandBinding Command="local:Commands.AddCredential" CanExecute="AddCredential_CanExecute" Executed="AddCredential_Executed"/>
+        <CommandBinding Command="local:Commands.DeleteItem" CanExecute="DeleteItem_CanExecute" Executed="DeleteItem_Executed"/>
+        <CommandBinding Command="local:Commands.Exit" CanExecute="ExitCommand_CanExecute" Executed="ExitCommand_Executed" />
+        <CommandBinding Command="local:Commands.Save" CanExecute="SaveCommand_CanExecute" Executed="SaveCommand_Executed" />
+    </UserControl.CommandBindings>
+    
+    
+    <Grid x:Name="GridMain">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="500*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name="GridTreeview" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+
+            <TreeView x:Name="TreeView" 
+                      Grid.Row="0"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Background="AliceBlue" SelectedItemChanged="treeView_SelectedItemChanged">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type tao:App}" ItemsSource="{Binding Credentials}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" />
+                            <!--<TextBlock Text=" [" />
+                            <TextBlock Text="{Binding Credentials.Count}" />
+                            <TextBlock Text="]" /> -->                            
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                    <DataTemplate DataType="{x:Type tao:Credential}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Username}" />                            
+                        </StackPanel>
+                    </DataTemplate>
+                </TreeView.Resources>
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <!-- <Setter Property="Background" Value="Beige"/>  -->                      
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="AddApplicationButton" Margin="2,5,5,5" 
+                        Command="local:Commands.AddApplication" HorizontalAlignment="Center">
+                    <ContentControl>
+                        <TextBlock x:Name="AddText" 
+                                   Text="{Binding Path=Command.Text, ElementName=AddApplicationButton}" 
+                                   TextWrapping="Wrap" TextAlignment="Center"/>
+                    </ContentControl>
+                </Button>
+                <Button x:Name="AddCredential" Margin="5" Command="local:Commands.AddCredential">
+                    <ContentControl>
+                        <TextBlock Text="{Binding Path=Command.Text, ElementName=AddCredential}" 
+                                   TextWrapping="Wrap" TextAlignment="Center"/>
+                    </ContentControl>
+                </Button>
+                <Button x:Name="DeleteButton" Margin="5" Command="local:Commands.DeleteItem">
+                    <ContentControl>
+                        <TextBlock x:Name="DeleteButtonText" Text="Delete" TextWrapping="Wrap" TextAlignment="Center"/>
+                    </ContentControl>
+                </Button>
+            </StackPanel>            
+
+        </Grid>
+
+        <DockPanel x:Name="Dock" Grid.Column="1" VerticalAlignment="Bottom" Height="60">
+            <StackPanel DockPanel.Dock="Bottom" Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="right">
+                <Button Command="local:Commands.Save" Content="Save" Width="75" Margin="5"/>
+                <Button Command="local:Commands.Exit" Content="Exit" Width="75" Margin="5"/>
+            </StackPanel>
+        </DockPanel>
+        
+    </Grid>
+</UserControl>
